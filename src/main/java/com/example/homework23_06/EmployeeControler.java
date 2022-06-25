@@ -1,13 +1,14 @@
 package com.example.homework23_06;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-
+@RequestMapping("/employee")
 public class EmployeeControler {
     private final EmployeeService employeeService;
 
@@ -15,32 +16,33 @@ public class EmployeeControler {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(path = "/employee/add")
+    @GetMapping(path = "/add")
     public String addEmployee(@RequestParam("firstName") String firstName,
                               @RequestParam("lastName") String lastName) {
-        employeeService.addEmployee(firstName, lastName);
+        employeeService.add(firstName, lastName);
 
         return "firstName:" + " " + firstName + " " + "lastName:" + " " + lastName + " " + "Добавлен в ЛИСТ";
     }
 
-    @GetMapping(path = "/employee/remove")
+    @GetMapping(path = "/remove")
     public String removeEmployee(@RequestParam("firstName") String firstName,
                                  @RequestParam("lastName") String lastName) {
-        employeeService.removeEmployee(firstName, lastName);
+        employeeService.remove(firstName, lastName);
         return "firstName:" + " " + firstName + " " + "lastName:" + " " + lastName + " " + "Удален из списка";
     }
 
 
-    @GetMapping(path = "/employee/find")
+    @GetMapping(path = "/find")
     public String findEmployee(@RequestParam("firstName") String firstName,
                                @RequestParam("lastName") String lastName) {
-        employeeService.findEmployee(firstName, lastName);
+        employeeService.find(firstName, lastName);
         return "firstName:" + " " + firstName + " " + "lastName:" + " " + lastName + " " + "Уже есть в списке";
     }
-@GetMapping(path ="/employee/printAll")
-    public String printAll(@RequestParam() List<Employee>employees){
+@GetMapping(path ="/printAll")
+    public List<Employee> printAll(@RequestParam() List<Employee>employees){
         employeeService.printAll();
-        return "Списко сотрудников" + employees;
+        return employeeService.employees;
 }
 }
+
 
