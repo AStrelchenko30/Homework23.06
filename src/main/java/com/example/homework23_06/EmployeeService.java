@@ -2,17 +2,19 @@ package com.example.homework23_06;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EmployeeService implements EmployeeServiceImp {
-    List<Employee> employees = new ArrayList<>(List.of(
-            new Employee("Аня", "Стрельченко"),
-            new Employee("Николай", "Дуденко")
-    ));
+private final Map<String,Employee> employeeMap;
+
 
     int arraySize = 6;
+
+    public EmployeeService() {
+        this.employeeMap = new HashMap<>();
+    }
 
     @Override
     public Employee add(String firstName, String lastName) {
@@ -20,10 +22,10 @@ public class EmployeeService implements EmployeeServiceImp {
                 firstName,
                 lastName
         );
-        if (employees.contains(employee)) {
+        if (employeeMap.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAddedException();
         }
-        employees.add(employee);
+        employeeMap.put(employee.getFullName(), employee);
         return employee;
     }
 
@@ -34,8 +36,8 @@ public class EmployeeService implements EmployeeServiceImp {
                 firstName,
                 lastName
         );
-        if (employees.contains(employee)) {
-            employees.remove(employee);
+        if (employeeMap.containsKey(employee.getFullName())) {
+            employeeMap.remove(employee.getFullName());
             return employee;
         }
         throw new EmployeeNotFoundException();
@@ -47,19 +49,15 @@ public class EmployeeService implements EmployeeServiceImp {
                 firstName,
                 lastName
         );
-        for (Employee employee1 : employees) {
-            if (lastName.equals(employee1.getLastName()) && firstName.equals(employee1.getFirstName()))
-                employees.equals(employee1);
-            return employee1;
+            if (employeeMap.containsKey(employee.getFullName())){
+            return employeeMap.get(employee.getFullName());
         }
         throw new EmployeeNotFoundException();
     }
+}
 
 
-    public List<Employee> printAll() {
-return new ArrayList<>(employees);
-        }
-    }
+
 
 
 

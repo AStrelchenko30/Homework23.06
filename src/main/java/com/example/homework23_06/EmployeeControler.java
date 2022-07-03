@@ -38,11 +38,7 @@ public class EmployeeControler {
         employeeService.find(firstName, lastName);
         return "firstName:" + " " + firstName + " " + "lastName:" + " " + lastName + " " + "Уже есть в списке";
     }
-@GetMapping(path ="/printAll")
-    public List<Employee> printAll(@RequestParam() List<Employee>employees){
-        employeeService.printAll();
-        return employeeService.employees;
-}
+
 }
 
 
